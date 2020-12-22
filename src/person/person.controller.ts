@@ -1,4 +1,4 @@
-import { Body, ConflictException, Controller, Get, HttpStatus, NotFoundException, Param, Post, Req } from '@nestjs/common';
+import { Body, ConflictException, Controller, Get, HttpStatus, Logger, NotFoundException, Param, Post, Req } from '@nestjs/common';
 import { Person } from '@prisma/client';
 import { PersonService } from './person.service';
 
@@ -9,7 +9,7 @@ export class PersonController {
 
   @Post()
   async createPerson(@Body('userId') userId: string): Promise<Person>{
-    console.log(userId)
+    Logger.log(userId)
     const user = await this.personService.retrievePerson({username: userId})
     if (user) {
       throw new ConflictException({
