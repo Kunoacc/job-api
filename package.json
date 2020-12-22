@@ -6,7 +6,7 @@
   "private": true,
   "license": "UNLICENSED",
   "scripts": {
-    "prebuild": "rimraf dist",
+    "prebuild": "rimraf dist && yarn prisma migrate dev --name init --preview-feature",
     "build": "nest build",
     "format": "prettier --write \"src/**/*.ts\" \"test/**/*.ts\"",
     "start": "nest start",
