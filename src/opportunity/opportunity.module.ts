@@ -9,6 +9,7 @@ import { OpportunityService } from './opportunity.service';
     baseURL: 'https://torre.co/api/opportunities'
   })],
   providers: [OpportunityService, PrismaService],
-  controllers: [OpportunityController]
+  controllers: [OpportunityController],
+  exports: [OpportunityService]
 })
 export class OpportunityModule {}
