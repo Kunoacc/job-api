@@ -94,7 +94,7 @@ export interface Result {
     _meta: Meta;
 }
 
-export interface RootObject {
+export interface OpportunitySearchApiResponse {
     aggregators: Aggregators;
     offset: number;
     results: Result[];

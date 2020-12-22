@@ -1,4 +1,5 @@
 import { Body, Controller, Post, Query } from '@nestjs/common';
+import { OpportunitySearchApiResponse } from 'src/interface/opportunity-search-api.interface';
 import { PersonSearchApiResponse } from 'src/interface/person-search-api.interface';
 import { SearchService } from './search.service';
 
@@ -27,7 +28,7 @@ export class SearchController {
     @Body('code') code: string,
     @Body('skills') skills: [] = [],
     @Query('offset') offset: string = "0"
-  ): Promise<PersonSearchApiResponse>{
+  ): Promise<OpportunitySearchApiResponse>{
     return await this.searchService?.getOpportunitySearchResults(offset, {
       code,
       skills,
