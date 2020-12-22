@@ -13,7 +13,7 @@ generator client {
 model Person {
   id  Int @default(autoincrement()) @id
   name String
-  phone String @unique
+  phone String?
   picture String
   headline String?
   username String @unique
@@ -23,12 +23,24 @@ model Person {
   location String?
   timezone String?
   isVerified Boolean
+  fullyFetched Boolean? @default(true)
   generatedAt DateTime? @default(now())
   updatedAt DateTime @updatedAt
   createdAt DateTime @default(now())
+  preferredJobCompensationCurrency String?
+  preferredJobCompensationAmount Int?
+  preferredJobCompensationCycle String?
+  preferredGigCompensationCurrency String?
+  preferredGigCompensationAmount Int?
+  preferredGigCompensationCycle String?
+  isOpenToInterships Boolean?
+  isOpenToMentoring Boolean?
+  isOpenToGigs Boolean?
+  isOpenToJobs Boolean?
   skills Skills[]
   experiences Experience[]
   interests Interest[]
+  companies Company[]
 }
 
 model Skills {
@@ -53,14 +65,17 @@ model Skill {
 model Experience {
   id Int @default(autoincrement()) @id
   code String @unique
-  category String
+  category String?
   fromDate DateTime
   toDate DateTime?
   role String
   location String?
-  isRemote Boolean
+  responsibilities String?
+  isRemote Boolean @default(false)
+  person Person @relation(fields: [personId], references: [id])
   company Company @relation(fields: [companyId], references: [id])
   companyId Int
+  personId Int
 }
 
 model Interest {
@@ -75,5 +90,36 @@ model Interest {
 model Company {
   id Int @default(autoincrement()) @id
   name String @unique
-  logo String
+  logo String?
+  people Person[]
+  profile CompanyProfile?
+}
+
+model Opportunity {
+  id Int @default(autoincrement()) @id
+  uid String @unique
+  title String
+  poster Person
+  isReviewed Boolean
+  benefits String?
+  responsibilities String?
+  company Company
+  structure String?
+  location String?
+  deadline DateTime
+  type String
+  skills Skill[]
+  minSalaryRange Int?
+  maxSalaryRange Int?
+  compensationPeriod String?
+  compensationCurrency String?
+  status String
+}
+
+model CompanyProfile {
+  id Int @default(autoincrement()) @id
+  culture String?
+  summary String?
+  company Company @relation(fields: [companyId], references: [id])
+  companyId Int @unique
 }

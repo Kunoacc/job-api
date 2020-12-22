@@ -9,6 +9,7 @@ import { PersonService } from './person.service';
     baseURL: 'https://torre.bio/api/bios/'
   })],
   providers: [PersonService, PrismaService],
-  controllers: [PersonController]
+  controllers: [PersonController],
+  exports: [PersonService]
 })
 export class PersonModule {}
