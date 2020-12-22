@@ -5,7 +5,7 @@ import { CompareController } from './compare.controller';
 import { CompareService } from './compare.service';
 
 @Module({
-  imports: [OpportunityModule, PersonModule],
+  imports: [PersonModule],
   controllers: [CompareController],
   providers: [CompareService]
 })

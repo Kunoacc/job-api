@@ -40,7 +40,13 @@ export class CreatePersonComparison implements PeopleComparisonData {
   
 
   constructor (data: Person) {
-    Object.keys(this).forEach(key => this[key] = data?.[key])
+    const self = this
+    for (const key in data) {
+      if (Object.prototype.hasOwnProperty.call(data, key)) {
+        const element = data[key];
+        self[key] = element
+      }
+    }
   }
 
   static generateFromApi(data: Person) {
