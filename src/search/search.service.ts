@@ -3,6 +3,7 @@ import { PersonSearchApiResponse } from 'src/interface/person-search-api.interfa
 import { AxiosResponse, AxiosError } from 'axios';
 import { URL } from 'url';
 import { NotFoundException } from '@nestjs/common';
+import { OpportunitySearchApiResponse } from 'src/interface/opportunity-search-api.interface';
 
 @Injectable()
 export class SearchService {
@@ -57,7 +58,7 @@ export class SearchService {
   async getOpportunitySearchResults(offset: string = '0', body: {
     code?: string,
     skills?: []
-  }): Promise<PersonSearchApiResponse>{
+  }): Promise<OpportunitySearchApiResponse>{
     try {
       const url = new URL(`${this.http.axiosRef.defaults.baseURL}/opportunities/_search`)
       url.searchParams.append('offset', offset)
