@@ -20,7 +20,7 @@ CREATE TABLE "Person" (
     "preferredJobCompensationAmount" INTEGER,
     "preferredJobCompensationCycle" TEXT,
     "preferredGigCompensationCurrency" TEXT,
-    "preferredGigCompensationAmount" TEXT,
+    "preferredGigCompensationAmount" INTEGER,
     "preferredGigCompensationCycle" TEXT,
     "isOpenToInterships" BOOLEAN,
     "isOpenToMentoring" BOOLEAN,
