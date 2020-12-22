@@ -88,7 +88,7 @@ export class SearchService {
       }
       Logger.log(requestData)
 
-      const data: AxiosResponse<PersonSearchApiResponse> = await this.http.post<PersonSearchApiResponse>(url.href, requestData).toPromise()
+      const data: AxiosResponse<OpportunitySearchApiResponse> = await this.http.post<OpportunitySearchApiResponse>(url.href, requestData).toPromise()
       return data?.data
     } catch(error) {
       Logger.log(error)
