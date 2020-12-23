@@ -19,7 +19,7 @@ export class SearchService {
       const url = new URL(`${this.http.axiosRef.defaults.baseURL}/people/_search`)
       url.searchParams.append('offset', offset)
       let requestData = {}
-      if (!body?.experience && !body?.skills) {
+      if (!body?.experience && body.skills.length < 1) {
         requestData = {
           "name": {
             "term": body?.name
@@ -63,7 +63,7 @@ export class SearchService {
       const url = new URL(`${this.http.axiosRef.defaults.baseURL}/opportunities/_search`)
       url.searchParams.append('offset', offset)
       let requestData = {}
-      if (!body?.skills) {
+      if (body.skills.length < 1) {
         requestData = {
           "status": {
             "code": body?.code
