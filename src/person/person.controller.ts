@@ -24,9 +24,11 @@ export class PersonController {
 
   @Get(':id')
   async getPerson(@Param('id') id: string): Promise<any>{
+    
     const result = await this.personService.retrievePerson({
       username: id
     })
+
     if (!result) {
       await this.personService.getPerson(id)
       throw new NotFoundException({

@@ -14,7 +14,7 @@ model Person {
   id  Int @default(autoincrement()) @id
   name String
   phone String?
-  picture String
+  picture String?
   headline String?
   username String @unique
   links String?
@@ -66,15 +66,15 @@ model Experience {
   id Int @default(autoincrement()) @id
   code String @unique
   category String?
-  fromDate DateTime
+  fromDate DateTime?
   toDate DateTime?
   role String
   location String?
   responsibilities String?
   isRemote Boolean @default(false)
   person Person @relation(fields: [personId], references: [id])
-  company Company @relation(fields: [companyId], references: [id])
-  companyId Int
+  company Company? @relation(fields: [companyId], references: [id])
+  companyId Int?
   personId Int
 }
 
@@ -106,9 +106,12 @@ model Opportunity {
   company Company
   structure String?
   location String?
-  deadline DateTime
+  isRemote Boolean?
+  additionalInformation String?
+  deadline DateTime?
   type String
   skills Skill[]
+  members String?
   minSalaryRange Int?
   maxSalaryRange Int?
   compensationPeriod String?

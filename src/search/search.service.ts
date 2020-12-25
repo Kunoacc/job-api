@@ -8,6 +8,8 @@ import { OpportunitySearchApiResponse } from 'src/interface/opportunity-search-a
 @Injectable()
 export class SearchService {
 
+  private readonly logger = new Logger(SearchService.name)
+
   constructor (private http: HttpService) {}
 
   async getPersonSearchResults(offset: string = '0', body: {
@@ -16,7 +18,7 @@ export class SearchService {
     experience?: string
   }): Promise<PersonSearchApiResponse>{
     try {
-      const url = new URL(`${this.http.axiosRef.defaults.baseURL}/people/_search`)
+      const url = new URL(`${this.http.axiosRef.defaults.baseURL}/people/_search/`)
       url.searchParams.append('offset', offset)
       let requestData = {}
       if (!body?.experience && body.skills.length < 1) {
@@ -42,12 +44,10 @@ export class SearchService {
           ]
         }
       }
-      Logger.log(requestData)
-
+      Logger.verbose(requestData)
       const data: AxiosResponse<PersonSearchApiResponse> = await this.http.post<PersonSearchApiResponse>(url.href, requestData).toPromise()
       return data?.data
     } catch(error) {
-      Logger.log(error)
       throw new NotFoundException({
         status: (error as AxiosError)?.response?.status,
         error: (error as AxiosError)?.response?.data?.message || 'Invalid search query'
@@ -60,38 +60,31 @@ export class SearchService {
     skills?: []
   }): Promise<OpportunitySearchApiResponse>{
     try {
-      const url = new URL(`${this.http.axiosRef.defaults.baseURL}/opportunities/_search`)
+      const url = new URL(`${this.http.axiosRef.defaults.baseURL}/opportunities/_search/`)
       url.searchParams.append('offset', offset)
       let requestData = {}
       if (body.skills.length < 1) {
         requestData = {
-          "status": {
-            "code": body?.code
+          "skill/role": {
+            "text": body?.code,
+            "experience": "potential-to-develop"
           }
         }
       } else {
         requestData = {
           "and": [
-            {
-              "status": {
-                "code": body?.code
-              }
-            },
             ...body.skills.map(skill => ({
               "skill/role": {
                 "text": skill,
-                "experience": `potential-to-develo`
+                "experience": `potential-to-develop`
               }
             }))
           ]
         }
       }
-      Logger.log(requestData)
-
       const data: AxiosResponse<OpportunitySearchApiResponse> = await this.http.post<OpportunitySearchApiResponse>(url.href, requestData).toPromise()
       return data?.data
     } catch(error) {
-      Logger.log(error)
       throw new NotFoundException({
         status: (error as AxiosError)?.response?.status,
         error: (error as AxiosError)?.response?.data?.message || 'Invalid search query'

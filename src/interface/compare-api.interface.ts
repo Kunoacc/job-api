@@ -1,5 +1,5 @@
-import { Experience, Interest, Person, Skills } from "@prisma/client";
-import { Education, Strength } from "./person-api.interface";
+import { Interest, Person } from "@prisma/client";
+import { Education, Job, Strength } from "./person-api.interface";
 
 export interface ComparePeople {
   preferredIndex: string | unknown;
@@ -13,6 +13,6 @@ export interface PeopleComparisonData extends Person {
   topFiveSkills?: Strength[];
   skillsBreakdown?: string;
   topFiveInterests?: Interest[];
-  longestExperience?: Experience;
+  longestExperience?: Job;
   mostRecentEducation?: Education;
 }

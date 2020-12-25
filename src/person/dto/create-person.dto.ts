@@ -87,7 +87,7 @@ export class CreatePerson implements Prisma.PersonCreateInput {
     this.experiences = {
       connectOrCreate: data.jobs.map(experience => ({
         create: {
-          company: {
+          ...(experience.organizations.length > 0 ? {company: {
             connectOrCreate: {
               create: {
                 logo: experience.organizations?.[0]?.picture,
@@ -97,7 +97,7 @@ export class CreatePerson implements Prisma.PersonCreateInput {
                 name: experience.organizations?.[0]?.name
               }
             }
-          },
+          }} : {}),
           category: experience.category,
           toDate: experience?.toMonth && experience?.toYear ? new Date(Date.parse(`${experience.toMonth}, ${experience.toYear}`)) : undefined,
           fromDate: experience?.fromMonth && experience?.fromYear ? new Date(Date.parse(`${experience.fromMonth}, ${experience.fromYear}`)) : undefined,

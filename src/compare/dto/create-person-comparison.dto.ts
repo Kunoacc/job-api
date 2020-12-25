@@ -1,13 +1,13 @@
-import { Skills, Interest, Experience, Person } from "@prisma/client";
+import { Interest, Person } from "@prisma/client";
 import { PeopleComparisonData } from "src/interface/compare-api.interface";
-import { Education, Strength } from "src/interface/person-api.interface";
+import { Education, Job, Strength } from "src/interface/person-api.interface";
 
 export class CreatePersonComparison implements PeopleComparisonData {
   employmentDuration?: string;
   numberOfOpportunities?: string;
   topFiveSkills?: Strength[];
   topFiveInterests?: Interest[];
-  longestExperience?: Experience;
+  longestExperience?: Job;
   mostRecentEducation?: Education;
   confidenceScore?: number;
   skillsBreakdown?: string;

@@ -8,6 +8,8 @@ import { Person, Prisma } from '@prisma/client'
 @Injectable()
 export class PersonService {
 
+  private readonly logger = new Logger(PersonService.name)
+
   constructor (private http: HttpService, private prisma: PrismaService) {  }
 
   async getPerson(id: string): Promise<PersonApiResponse> {
@@ -25,10 +27,45 @@ export class PersonService {
   async createPerson(person: PersonApiResponse): Promise<Person> {
     try {
       return this.prisma.person.create({
-        data: CreatePerson.generateFromApi(person)
+        data: CreatePerson.generateFromApi(person),
+        include: {
+          experiences: {
+            include: {
+              company: {
+                select: {
+                  logo: true,
+                  name: true
+                }
+              }
+            }
+          },
+          interests: {
+            select: {
+              skillId: false,
+              personId: false,
+              skill: {
+                select: {
+                  name: true
+                }
+              }
+            }
+          },
+          skills: {
+            include: {
+              skill: {
+                select: {
+                  name: true
+                }
+              }
+            },
+            orderBy: {
+              skillWeight: 'desc'
+            }
+          }
+        }
       })
     } catch (error) {
-      Logger.verbose(error)
+      this.logger.verbose(error)
       throw new InternalServerErrorException({
         status: HttpStatus.INTERNAL_SERVER_ERROR,
         error: error?.message || 'Oops, something went wrong.'
@@ -77,12 +114,10 @@ export class PersonService {
         }
       })
       if (person && !person?.fullyFetched) {
-        console.log(person)
-        await this.updatePerson({
+        return await this.updatePerson({
           ...CreatePerson.generateFromApi(await this.getPerson(person.username)),
           fullyFetched: true
         })
-        await this.retrievePerson({username: person.username})
       }
       return person
     } catch(error) {
@@ -99,7 +134,42 @@ export class PersonService {
         where: {
           username: data.username.toString()
         },
-        data
+        data,
+        include: {
+          experiences: {
+            include: {
+              company: {
+                select: {
+                  logo: true,
+                  name: true
+                }
+              }
+            }
+          },
+          interests: {
+            select: {
+              skillId: false,
+              personId: false,
+              skill: {
+                select: {
+                  name: true
+                }
+              }
+            }
+          },
+          skills: {
+            include: {
+              skill: {
+                select: {
+                  name: true
+                }
+              }
+            },
+            orderBy: {
+              skillWeight: 'desc'
+            }
+          }
+        }
       })
     } catch(error) {
       throw new InternalServerErrorException({

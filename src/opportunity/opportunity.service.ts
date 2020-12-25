@@ -25,7 +25,17 @@ export class OpportunityService {
   async createOpportunity(opportunity: OpportunityApiResponse): Promise<Opportunity> {
     try {
       return this.prsima.opportunity.create({
-        data: CreateOpportunity.generateFromApi(opportunity)
+        data: CreateOpportunity.generateFromApi(opportunity),
+        include: {
+          company: {
+            include: {
+              profile: {},
+              people: {},
+            }
+          },
+          poster: {},
+          skills: {}
+        }
       })
     } catch (error) {
       Logger.verbose(error)
