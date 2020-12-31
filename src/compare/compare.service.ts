@@ -9,6 +9,8 @@ import { CreatePersonComparison } from './dto/create-person-comparison.dto';
 @Injectable()
 export class CompareService {
 
+  private readonly logger: Logger = new Logger(CompareService.name)
+
   constructor (private person: PersonService) {}
 
   async comparePeople(first_id: string, second_id: string, skills: [] = []): Promise<ComparePeople> {
@@ -45,7 +47,7 @@ export class CompareService {
         username: second_id
       })
     }
-
+    
     const secondCompared = this.buildComparedUser(secondUser, secondUserLocal, skills)
 
     const preferred = firstUserCompared.confidenceScore - secondCompared.confidenceScore > 0 ? "1" : "2" 

@@ -28,10 +28,10 @@ model Person {
   updatedAt DateTime @updatedAt
   createdAt DateTime @default(now())
   preferredJobCompensationCurrency String?
-  preferredJobCompensationAmount Int?
+  preferredJobCompensationAmount Float?
   preferredJobCompensationCycle String?
   preferredGigCompensationCurrency String?
-  preferredGigCompensationAmount Int?
+  preferredGigCompensationAmount Float?
   preferredGigCompensationCycle String?
   isOpenToInterships Boolean?
   isOpenToMentoring Boolean?
